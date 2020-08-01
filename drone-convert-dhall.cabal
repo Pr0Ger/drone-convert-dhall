@@ -1,0 +1,23 @@
+cabal-version: 3.0
+name:          drone-convert-dhall
+version:       0.1.0
+synopsis:      Add support for Drone pipelines configuration in dhall
+description:
+  A Drone plugin to convert *.dhall file to proper yaml description
+
+category:      Development
+author:        Sergey Petrov
+maintainer:    me@pr0ger.org
+license:       MIT
+license-file:  LICENSE
+tested-with:   GHC ==8.10.1
+
+source-repository head
+  type:     git
+  location: git://github.com/Pr0Ger/drone-convert-dhall.git
+
+executable drone-convert-dhall
+  main-is:          Main.hs
+  hs-source-dirs:   src
+  build-depends:    base >=4.7 && <5
+  default-language: Haskell2010
