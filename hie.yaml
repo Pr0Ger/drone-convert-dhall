@@ -2,3 +2,5 @@ cradle:
   cabal:
     - path: "./src"
       component: "exe:drone-convert-dhall"
+    - path: "./tests"
+      component: "test:test"
