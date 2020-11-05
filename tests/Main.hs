@@ -6,7 +6,7 @@ import Test.Tasty.Hspec
 main :: IO()
 main = do
     hspecTree <- spec
-    defaultMain $ testGroup "Tests" 
+    defaultMain $ testGroup "Tests"
         [
             hspecTree
         ]

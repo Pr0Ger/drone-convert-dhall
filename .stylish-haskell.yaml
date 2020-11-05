@@ -1,0 +1,24 @@
+steps:
+  - simple_align: {}
+
+  - module_header:
+      indent: 4
+      break_only_where: false
+
+  - records:
+      equals: "same_line"
+      first_field: "indent 2"
+      field_comment: 2
+      deriving: 2
+      via: "indent 2"
+      break_enums: true
+      break_single_constructors: false
+
+  - imports:
+      align: group
+
+  - language_pragmas: {}
+
+  - trailing_whitespace: {}
+
+columns: 100
