@@ -2,7 +2,7 @@ steps:
   - simple_align: {}
 
   - module_header:
-      indent: 4
+      indent: 2
       break_only_where: false
 
   - records:
