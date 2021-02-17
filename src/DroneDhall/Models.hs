@@ -1,16 +1,17 @@
-{-# LANGUAGE DeriveGeneric         #-}
-{-# LANGUAGE DerivingStrategies    #-}
-{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE DeriveGeneric      #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE OverloadedStrings  #-}
 
 module DroneDhall.Models
-  ( Config(..)
-  , Request(..)
+  ( Config (..)
+  , Request (..)
   ) where
 
 import Data.Aeson
+import Data.Text    (Text)
 import GHC.Generics (Generic)
 
-newtype Config = Config { data' :: String }
+newtype Config = Config { data' :: Text }
   deriving stock (Eq, Show)
 
 newtype Request = Request { config :: Config }
