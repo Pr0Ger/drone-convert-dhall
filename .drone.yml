@@ -2,6 +2,11 @@ kind: pipeline
 type: docker
 name: test
 steps:
+- name: stack-test
+  image: haskell:latest
+  commands:
+  - stack setup
+  - stack test
 - name: test
   image: haskell:8.10.1
   commands:

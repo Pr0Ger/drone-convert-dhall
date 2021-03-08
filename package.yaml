@@ -1,0 +1,48 @@
+name: drone-convert-dhall
+version: 0.1.0
+github: "Pr0Ger/drone-convert-dhall"
+license: MIT
+author: "Sergey Petrov"
+maintainer: "me@pr0ger.org"
+
+synopsis: Add support for Drone pipelines configuration in dhall
+description: |
+  A Drone plugin to convert *.dhall file to proper yaml description
+category: Development
+
+dependencies:
+  - aeson
+  - base >= 4.7 && < 5
+
+library:
+  dependencies:
+    - dhall
+    - dhall-yaml
+    - text
+  source-dirs: src
+  when:
+    - condition: false
+      other-modules:
+        - Main
+
+executables:
+  drone-convert-dhall:
+    source-dirs: src
+    main: Main.hs
+    dependencies:
+      - drone-convert-dhall
+      - dhall-yaml
+      - scotty
+      - text
+      - wai-extra
+
+tests:
+  drone-convert-dhall-test:
+    source-dirs: tests
+    main: Main.hs
+
+    dependencies:
+      - drone-convert-dhall
+      - tasty
+      - tasty-hspec
+      - QuickCheck
