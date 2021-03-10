@@ -9,7 +9,6 @@ synopsis: Add support for Drone pipelines configuration in dhall
 description: |
   A Drone plugin to convert *.dhall file to proper yaml description
 category: Development
-
 dependencies:
   - aeson
   - base >= 4.7 && < 5
@@ -27,8 +26,7 @@ library:
 
 executables:
   drone-convert-dhall:
-    source-dirs: src
-    main: Main.hs
+    main: drone-convert-dhall.hs
     dependencies:
       - drone-convert-dhall
       - dhall-yaml

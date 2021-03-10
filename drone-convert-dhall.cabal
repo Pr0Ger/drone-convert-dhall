@@ -38,13 +38,9 @@ library
   default-language: Haskell2010
 
 executable drone-convert-dhall
-  main-is: Main.hs
+  main-is: drone-convert-dhall.hs
   other-modules:
-      DroneDhall.Models
-      DroneDhall.Signature
       Paths_drone_convert_dhall
-  hs-source-dirs:
-      src
   build-depends:
       aeson
     , base >=4.7 && <5

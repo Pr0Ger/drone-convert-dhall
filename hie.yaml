@@ -1,6 +1,8 @@
 cradle:
-  cabal:
+  stack:
     - path: "./src"
-      component: "exe:drone-convert-dhall"
+      component: "drone-convert-dhall:lib"
+    - path: "./drone-convert-dhall.hs"
+      component: "drone-convert-dhall:exe:drone-convert-dhall"
     - path: "./tests"
-      component: "test:test"
+      component: "drone-convert-dhall:test:drone-convert-dhall-test"
