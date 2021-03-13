@@ -2,6 +2,10 @@ kind: pipeline
 type: docker
 name: test
 steps:
+- name: nix-build
+  image: nixos/nix
+  commands:
+  - nix-build
 - name: stack-test
   image: haskell:latest
   commands:
