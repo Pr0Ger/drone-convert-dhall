@@ -1,4 +1,7 @@
-{ nixpkgs ? import <nixpkgs> {}
-  , compiler ? "ghc8104"
+{ compiler ? "ghc8104"
 }:
-nixpkgs.pkgs.haskell.packages.${compiler}.callPackage ./drone-convert-dhall.nix { }
+let 
+  sources = import ./nix/sources.nix;
+  pkgs = import sources.nixpkgs {};
+in
+pkgs.haskell.packages.${compiler}.callPackage ./drone-convert-dhall.nix { }
