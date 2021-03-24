@@ -5,6 +5,4 @@ steps:
 - name: nix-build
   image: nixos/nix
   commands:
-  - nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
-  - nix-channel --update
   - nix-build
