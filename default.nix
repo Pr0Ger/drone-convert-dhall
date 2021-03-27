@@ -1,6 +1,6 @@
 { compiler ? "ghc8104"
 }:
-let 
+let
   sources = import ./nix/sources.nix;
   pkgs = import sources.nixpkgs {};
 in

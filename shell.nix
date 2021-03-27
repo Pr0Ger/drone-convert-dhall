@@ -10,7 +10,7 @@ pkgs.mkShell {
   inputsFrom = [ pkg ];
   src = null;
 
-  buildInputs = with pkgs; [ 
+  buildInputs = with pkgs; [
     pkgs.zlib
 
     pkgs.haskellPackages.cabal-install
