@@ -17,4 +17,7 @@ mkDerivation {
   homepage = "https://github.com/Pr0Ger/drone-convert-dhall#readme";
   description = "Add support for Drone pipelines configuration in dhall";
   license = lib.licenses.mit;
+
+  enableSharedExecutables = false;
+  postFixup = "rm -rf $out/lib $out/nix-support $out/share/doc";
 }
