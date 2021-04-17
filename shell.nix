@@ -13,6 +13,7 @@ pkgs.mkShell {
   buildInputs = with pkgs; [
     pkgs.zlib
 
+    pkgs.dhall-lsp-server
     pkgs.haskellPackages.cabal-install
     pkgs.hpack
     pkgs.just
