@@ -7,7 +7,7 @@ steps:
   commands:
   - nix-build
 - name: publish
-  image: plugins/drone
+  image: plugins/docker
   environment:
     DOCKER_USER: pr0ger
     DOCKER_PASS:
