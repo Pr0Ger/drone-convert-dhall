@@ -4,16 +4,27 @@ name: test
 steps:
 - name: nix-build
   image: nixos/nix
+  volumes:
+  - name: nix
+    path: /nix
   commands:
   - nix-build
+
 - name: publish
   image: plugins/docker
   environment:
     DOCKER_USER: pr0ger
     DOCKER_PASS:
       from_secret: docker_password
+  volumes:
+  - name: nix
+    path: /nix
   commands:
   - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
   - docker load -i result
   - docker push pr0ger/drone-convert-dhall:latest
   - docker rmi pr0ger/drone-convert-dhall:latest
+
+volumes:
+- name: nix
+  temp: {}
