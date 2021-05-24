@@ -17,7 +17,7 @@ steps:
     password:
       from_secret: docker_password
     repo: pr0ger/drone-convert-dhall
-    tags: latest
+    tag: latest
   volumes:
   - name: nix
     path: /nix
