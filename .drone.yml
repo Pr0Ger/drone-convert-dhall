@@ -9,20 +9,18 @@ steps:
     path: /nix
   commands:
   - nix-build
-  - gunzip < result > image.tar
 
 - name: publish
-  image: gcr.io/go-containerregistry/crane
-  environment:
-    DOCKER_USER: pr0ger
-    DOCKER_PASS:
+  image: pr0ger/drone-crane
+  settings:
+    username: pr0ger
+    password:
       from_secret: docker_password
+    repo: pr0ger/drone-convert-dhall
+    tags: latest
   volumes:
   - name: nix
     path: /nix
-  commands:
-  - crane auth login index.docker.io -u $DOCKER_USER -p $DOCKER_PASS
-  - crane push image.tar pr0ger/drone-convert-dhall:latest
 
 volumes:
 - name: nix
