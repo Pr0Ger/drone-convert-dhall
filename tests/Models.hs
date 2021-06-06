@@ -30,4 +30,4 @@ spec = testSpec "json models" $ do
       let
         jsonText = "{\"config\": {\"data\": \"test config file\"}, \"repo\": {\"config_path\": \".drone.dhall\"}}"
         json     = decode jsonText :: Maybe Request
-      in _data' . config <$> json `shouldBe` Just "test config file"
+      in _data' . _config <$> json `shouldBe` Just "test config file"
