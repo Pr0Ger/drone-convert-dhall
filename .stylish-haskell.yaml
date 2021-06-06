@@ -21,4 +21,4 @@ steps:
 
   - trailing_whitespace: {}
 
-columns: 100
+columns: 120

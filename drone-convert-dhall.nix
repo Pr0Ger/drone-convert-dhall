@@ -1,4 +1,5 @@
-{ mkDerivation, aeson, base, dhall, dhall-yaml, hpack, lib
+{ mkDerivation, aeson, base, bytestring, dhall, dhall-yaml
+, filepath, hpack, lib, microlens-platform, microlens-th
 , QuickCheck, scotty, tasty, tasty-hspec, text, wai-extra
 }:
 mkDerivation {
@@ -7,10 +8,13 @@ mkDerivation {
   src = ./.;
   isLibrary = true;
   isExecutable = true;
-  libraryHaskellDepends = [ aeson base dhall dhall-yaml text ];
+  libraryHaskellDepends = [
+    aeson base dhall dhall-yaml microlens-platform microlens-th text
+  ];
   libraryToolDepends = [ hpack ];
   executableHaskellDepends = [
-    aeson base dhall-yaml scotty text wai-extra
+    aeson base bytestring dhall-yaml filepath microlens-platform scotty
+    text wai-extra
   ];
   testHaskellDepends = [ aeson base QuickCheck tasty tasty-hspec ];
   prePatch = "hpack";

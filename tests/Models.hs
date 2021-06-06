@@ -16,7 +16,7 @@ spec = testSpec "json models" $ do
       let
         jsonText = "{\"data\": \"some data\"}"
         json     = decode jsonText :: Maybe Config
-      in data' <$> json `shouldBe` Just "some data"
+      in _data' <$> json `shouldBe` Just "some data"
 
     it "should be encodable to json" $
       let
@@ -28,6 +28,6 @@ spec = testSpec "json models" $ do
   describe "request" $ do
     it "should be parsable from json" $
       let
-        jsonText = "{\"config\": {\"data\": \"test config file\"}}"
+        jsonText = "{\"config\": {\"data\": \"test config file\"}, \"repo\": {\"config_path\": \".drone.dhall\"}}"
         json     = decode jsonText :: Maybe Request
-      in data' . config <$> json `shouldBe` Just "test config file"
+      in _data' . config <$> json `shouldBe` Just "test config file"

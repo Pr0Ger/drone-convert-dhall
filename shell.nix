@@ -15,6 +15,7 @@ pkgs.mkShell {
 
     pkgs.dhall-lsp-server
     pkgs.haskellPackages.cabal-install
+    pkgs.haskell.packages.${compiler}.ghc
     pkgs.hpack
     pkgs.just
     pkgs.pre-commit

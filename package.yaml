@@ -17,6 +17,8 @@ library:
   dependencies:
     - dhall
     - dhall-yaml
+    - microlens-platform
+    - microlens-th
     - text
   source-dirs: src
   when:
@@ -28,8 +30,11 @@ executables:
   drone-convert-dhall:
     main: drone-convert-dhall.hs
     dependencies:
+      - bytestring
       - drone-convert-dhall
       - dhall-yaml
+      - filepath
+      - microlens-platform
       - scotty
       - text
       - wai-extra

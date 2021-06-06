@@ -34,6 +34,8 @@ library
     , base >=4.7 && <5
     , dhall
     , dhall-yaml
+    , microlens-platform
+    , microlens-th
     , text
   default-language: Haskell2010
 
@@ -44,8 +46,11 @@ executable drone-convert-dhall
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
     , dhall-yaml
     , drone-convert-dhall
+    , filepath
+    , microlens-platform
     , scotty
     , text
     , wai-extra
