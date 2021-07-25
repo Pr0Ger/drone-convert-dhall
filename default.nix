@@ -9,7 +9,7 @@ let
   tag = "latest";
 in pkgs.dockerTools.buildLayeredImage {
   inherit name tag;
-  contents = [ drone-convert-dhall ];
+  contents = [ pkgs.cacert drone-convert-dhall ];
 
   config = {
     Cmd = [ "${drone-convert-dhall}/bin/drone-convert-dhall" ];
