@@ -22,7 +22,7 @@ let Step =
 let default =
       { failure = None Enums.Failure
       , environment = None Misc.Environment
-      , when = None Conditions
+      , when = None Misc.Conditions
       , depends_on = None (List Text)
       }
 
