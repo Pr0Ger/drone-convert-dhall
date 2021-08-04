@@ -10,14 +10,12 @@ let Enums = ./enums.dhall
 
 let dropNones = ./utils.dhall
 
-let Conditions = {}
-
 let Step =
       { name : Text
       , failure : Optional Enums.Failure
       , commands : List Text
       , environment : Optional Misc.Environment
-      , when : Optional Conditions
+      , when : Optional Misc.Conditions
       , depends_on : Optional (List Text)
       }
 
@@ -53,6 +51,12 @@ let toJSONObjectFields
                       JSON.Type
                       Misc.Environment/toJSON
                       step.environment
+                , when =
+                    Optional/map
+                      Misc.Conditions
+                      JSON.Type
+                      Misc.Conditions/toJSON
+                      step.when
                 , depends_on =
                     Optional/map
                       (List Text)
