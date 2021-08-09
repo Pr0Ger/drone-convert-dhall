@@ -4,14 +4,36 @@ let JSON = Prelude.JSON
 
 let Enums = ./enums.dhall
 
+let Misc = ./misc.dhall
+
 let Pipeline = ./pipeline_common.dhall
 
 let BaseStep = ./step.dhall
 
+let StepType = < commands : List Text | plugin : Misc.KVParams >
+
+let StepType/toJSON
+    : StepType → List { mapKey : Text, mapValue : JSON.Type }
+    = λ(stepType : StepType) →
+        merge
+          { commands =
+              λ(commands : List Text) →
+                toMap
+                  { commands =
+                      JSON.array
+                        (Prelude.List.map Text JSON.Type JSON.string commands)
+                  }
+          , plugin =
+              λ(settings : Misc.KVParams) →
+                toMap { settings = Misc.KVParams/toJSON settings }
+          }
+          stepType
+
 let Step =
       { Type =
             BaseStep.Type
-          ⩓ { command : Optional (List Text)
+          ⩓ { commands : StepType
+            , command : Optional (List Text)
             , detach : Optional Bool
             , entrypoint : Optional (List Text)
             , image : Text
@@ -37,6 +59,7 @@ let Step/toJSON
     = λ(step : Step.Type) →
         let fields =
                 BaseStep.toJSONObjectFields step.(BaseStep.Type)
+              # StepType/toJSON step.commands
               # toMap { image = JSON.string step.image }
 
         in  JSON.object fields
@@ -54,4 +77,4 @@ let toJSONObjectFields
         in    Pipeline.toJSONObjectFields pipeline.(Pipeline.Type)
             # toMap { type = JSON.string "docker", steps = JSON.array steps }
 
-in  { Step, Type = DockerPipeline, default, toJSONObjectFields }
+in  { Step, Type = DockerPipeline, default, StepType, toJSONObjectFields }

@@ -117,22 +117,22 @@ let Secret/toJSON
     = λ(secret : Secret) →
         JSON.object (toMap { from_secret = JSON.string secret.from_secret })
 
-let EnvVar = < plain : Text | from_secret : Secret >
+let Param = < plain : Text | from_secret : Secret >
 
-let Environment = Map.Type Text EnvVar
+let KVParams = Map.Type Text Param
 
-let Environment/toJSON
-    : Environment → JSON.Type
-    = λ(environment : Environment) →
+let KVParams/toJSON
+    : KVParams → JSON.Type
+    = λ(environment : KVParams) →
         let convert =
-              λ(val : EnvVar) →
+              λ(val : Param) →
                 merge
                   { plain = λ(text : Text) → JSON.string text
                   , from_secret = λ(secret : Secret) → Secret/toJSON secret
                   }
                   val
 
-        let data = Map.map Text EnvVar JSON.Type convert environment
+        let data = Map.map Text Param JSON.Type convert environment
 
         in  JSON.object data
 
@@ -163,8 +163,8 @@ in  { Clone
     , Conditions/toJSON
     , Constraint
     , Constraint/toJSON
-    , Environment
-    , Environment/toJSON
+    , KVParams
+    , KVParams/toJSON
     , Platform
     , Platform/toJSON
     , Secret

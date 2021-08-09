@@ -37,5 +37,6 @@ in  { Pipeline =
       }
     , Step = { Docker = DockerPipeline.Step, Exec = ExecPipeline.Step }
     , Secret = λ(secret : Secret.Type) → Resource.Type.secret secret
+    , StepType = DockerPipeline.StepType
     , render
     }

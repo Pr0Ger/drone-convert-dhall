@@ -13,15 +13,14 @@ let dropNones = ./utils.dhall
 let Step =
       { name : Text
       , failure : Optional Enums.Failure
-      , commands : List Text
-      , environment : Optional Misc.Environment
+      , environment : Optional Misc.KVParams
       , when : Optional Misc.Conditions
       , depends_on : Optional (List Text)
       }
 
 let default =
       { failure = None Enums.Failure
-      , environment = None Misc.Environment
+      , environment = None Misc.KVParams
       , when = None Misc.Conditions
       , depends_on = None (List Text)
       }
@@ -44,12 +43,11 @@ let toJSONObjectFields
                       JSON.Type
                       Enums.Failure/toJSON
                       step.failure
-                , commands = Some (stringsArray step.commands)
                 , environment =
                     Optional/map
-                      Misc.Environment
+                      Misc.KVParams
                       JSON.Type
-                      Misc.Environment/toJSON
+                      Misc.KVParams/toJSON
                       step.environment
                 , when =
                     Optional/map
