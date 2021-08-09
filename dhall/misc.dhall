@@ -163,6 +163,7 @@ in  { Clone
     , Conditions/toJSON
     , Constraint
     , Constraint/toJSON
+    , Param
     , KVParams
     , KVParams/toJSON
     , Platform
