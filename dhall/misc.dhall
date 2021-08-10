@@ -117,7 +117,7 @@ let Secret/toJSON
     = λ(secret : Secret) →
         JSON.object (toMap { from_secret = JSON.string secret.from_secret })
 
-let Param = < plain : Text | from_secret : Secret >
+let Param = < plain : JSON.Type | from_secret : Secret >
 
 let KVParams = Map.Type Text Param
 
@@ -127,7 +127,7 @@ let KVParams/toJSON
         let convert =
               λ(val : Param) →
                 merge
-                  { plain = λ(text : Text) → JSON.string text
+                  { plain = λ(value : JSON.Type) → value
                   , from_secret = λ(secret : Secret) → Secret/toJSON secret
                   }
                   val
