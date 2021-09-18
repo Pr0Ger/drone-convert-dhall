@@ -9,14 +9,14 @@ let Pipeline =
       , platform : Optional Misc.Platform
       , workspace : Optional Misc.Workspace
       , clone : Optional Misc.Clone
-      , trigger : Optional Misc.Conditions
+      , trigger : Optional Misc.Conditions.Type
       }
 
 let default =
       { platform = None Misc.Platform
       , workspace = None Misc.Workspace
       , clone = None Misc.Clone
-      , trigger = None Misc.Conditions
+      , trigger = None Misc.Conditions.Type
       }
 
 let toJSONObjectFields
