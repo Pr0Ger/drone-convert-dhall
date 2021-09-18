@@ -8,7 +8,7 @@ let Optional/map = Prelude.Optional.map
 
 let Enums = ./enums.dhall
 
-let dropNones = ./utils.dhall
+let Utils = ./utils.dhall
 
 let Platform =
     -- The Platform object defines the target os and architecture for the pipeline.
@@ -38,7 +38,7 @@ let Platform/toJSON
                     Optional/map Text JSON.Type JSON.string platform.version
                 }
 
-        in  JSON.object (dropNones Text JSON.Type everything)
+        in  JSON.object (Utils.dropNones Text JSON.Type everything)
 
 let Clone =
     -- The Clone object defines the clone behavior for the pipeline.
@@ -55,58 +55,180 @@ let Clone/toJSON
                 , disable = Optional/map Bool JSON.Type JSON.bool clone.disable
                 }
 
-        in  JSON.object (dropNones Text JSON.Type everything)
+        in  JSON.object (Utils.dropNones Text JSON.Type everything)
 
 let Constraint =
     -- The Constraint object defines pattern matching criteria.
     -- If the pattern matching evaluates to false, the parent object is skipped.
-      { exclude : Optional (List Text), include : Optional (List Text) }
+      { Type =
+          { exclude : Optional (List Text), include : Optional (List Text) }
+      , default = { exclude = None (List Text), include = None (List Text) }
+      }
 
 let Constraint/toJSON
-    : Constraint → JSON.Type
-    = λ(constraint : Constraint) →
-        let stringsArray
-            : List Text → JSON.Type
-            = λ(xs : List Text) →
-                JSON.array (Prelude.List.map Text JSON.Type JSON.string xs)
-
-        let everything
-            : Map.Type Text (Optional JSON.Type)
-            = toMap
+    : Constraint.Type → JSON.Type
+    = λ(constraint : Constraint.Type) →
+        let fields =
+              toMap
                 { exclude =
                     Optional/map
                       (List Text)
                       JSON.Type
-                      stringsArray
+                      Utils.stringsArray
                       constraint.exclude
                 , include =
                     Optional/map
                       (List Text)
                       JSON.Type
-                      stringsArray
+                      Utils.stringsArray
                       constraint.include
                 }
 
-        in  JSON.object (dropNones Text JSON.Type everything)
+        in  JSON.object (Utils.dropNones Text JSON.Type fields)
+
+let ConstraintOrText = < constraint : Constraint.Type | actions : List Text >
+
+let ConstraintOrText/toJSON
+    : ConstraintOrText → JSON.Type
+    = λ(condition : ConstraintOrText) →
+        merge
+          { constraint =
+              λ(constraint : Constraint.Type) → Constraint/toJSON constraint
+          , actions = λ(actions : List Text) → Utils.stringsArray actions
+          }
+          condition
+
+let ConstraintOrEvent =
+      < constraint : Constraint.Type | events : List Enums.Event >
+
+let ConstraintOrEvent/toJSON
+    : ConstraintOrEvent → JSON.Type
+    = λ(condition : ConstraintOrEvent) →
+        merge
+          { constraint =
+              λ(constraint : Constraint.Type) → Constraint/toJSON constraint
+          , events =
+              λ(events : List Enums.Event) →
+                JSON.array
+                  ( Prelude.List.map
+                      Enums.Event
+                      JSON.Type
+                      Enums.Event/toJSON
+                      events
+                  )
+          }
+          condition
+
+let ConstraintOrStatus =
+      < constraint : Constraint.Type | statuses : List Enums.Status >
+
+let ConstraintOrStatus/toJSON
+    : ConstraintOrStatus → JSON.Type
+    = λ(condition : ConstraintOrStatus) →
+        merge
+          { constraint =
+              λ(constraint : Constraint.Type) → Constraint/toJSON constraint
+          , statuses =
+              λ(statuses : List Enums.Status) →
+                JSON.array
+                  ( Prelude.List.map
+                      Enums.Status
+                      JSON.Type
+                      Enums.Status/toJSON
+                      statuses
+                  )
+          }
+          condition
 
 let Conditions =
     -- The Conditions object defines a set of conditions.
     -- If any condition evaluates to true its parent object is skipped.
-      { action : < Constraint : Constraint | actions : List Text >
-      , branch : < Constraint : Constraint | actions : List Text >
-      , cron : < Constraint : Constraint | actions : List Text >
-      , event : < Constraint : Constraint | actions : List Enums.Event >
-      , instance : < Constraint : Constraint | actions : List Text >
-      , ref : < Constraint : Constraint | actions : List Text >
-      , repo : < Constraint : Constraint | actions : List Text >
-      , status : < Constraint : Constraint | actions : List Enums.Status >
-      , target : < Constraint : Constraint | actions : List Text >
+      { Type =
+          { action : Optional ConstraintOrText
+          , branch : Optional ConstraintOrText
+          , cron : Optional ConstraintOrText
+          , event : Optional ConstraintOrEvent
+          , instance : Optional ConstraintOrText
+          , ref : Optional ConstraintOrText
+          , repo : Optional ConstraintOrText
+          , status : Optional ConstraintOrStatus
+          , target : Optional ConstraintOrText
+          }
+      , default =
+        { action = None ConstraintOrText
+        , branch = None ConstraintOrText
+        , cron = None ConstraintOrText
+        , event = None ConstraintOrEvent
+        , instance = None ConstraintOrText
+        , ref = None ConstraintOrText
+        , repo = None ConstraintOrText
+        , status = None ConstraintOrStatus
+        , target = None ConstraintOrText
+        }
       }
 
 let Conditions/toJSON
-    : Conditions → JSON.Type
-    = λ(conditions : Conditions) →
-        let fields = toMap { todo = JSON.string "TODO" } in JSON.object fields
+    : Conditions.Type → JSON.Type
+    = λ(conditions : Conditions.Type) →
+        let fields =
+              toMap
+                { action =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.action
+                , branch =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.branch
+                , cron =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.cron
+                , event =
+                    Optional/map
+                      ConstraintOrEvent
+                      JSON.Type
+                      ConstraintOrEvent/toJSON
+                      conditions.event
+                , instance =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.instance
+                , ref =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.ref
+                , repo =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.repo
+                , status =
+                    Optional/map
+                      ConstraintOrStatus
+                      JSON.Type
+                      ConstraintOrStatus/toJSON
+                      conditions.status
+                , target =
+                    Optional/map
+                      ConstraintOrText
+                      JSON.Type
+                      ConstraintOrText/toJSON
+                      conditions.target
+                }
+
+        in  JSON.object (Utils.dropNones Text JSON.Type fields)
 
 let Secret =
     -- The Secret defines the named source of a secret.

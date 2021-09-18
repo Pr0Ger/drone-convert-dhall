@@ -8,20 +8,20 @@ let Misc = ./misc.dhall
 
 let Enums = ./enums.dhall
 
-let dropNones = ./utils.dhall
+let Utils = ./utils.dhall
 
 let Step =
       { name : Text
       , failure : Optional Enums.Failure
       , environment : Optional Misc.KVParams
-      , when : Optional Misc.Conditions
+      , when : Optional Misc.Conditions.Type
       , depends_on : Optional (List Text)
       }
 
 let default =
       { failure = None Enums.Failure
       , environment = None Misc.KVParams
-      , when = None Misc.Conditions
+      , when = None Misc.Conditions.Type
       , depends_on = None (List Text)
       }
 
@@ -51,7 +51,7 @@ let toJSONObjectFields
                       step.environment
                 , when =
                     Optional/map
-                      Misc.Conditions
+                      Misc.Conditions.Type
                       JSON.Type
                       Misc.Conditions/toJSON
                       step.when
@@ -63,6 +63,6 @@ let toJSONObjectFields
                       step.depends_on
                 }
 
-        in  dropNones Text JSON.Type everything
+        in  Utils.dropNones Text JSON.Type everything
 
 in  { Type = Step, default, toJSONObjectFields }

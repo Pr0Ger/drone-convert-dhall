@@ -1,5 +1,7 @@
 let Prelude = ./Prelude.dhall
 
+let JSON = Prelude.JSON
+
 let Map = Prelude.Map
 
 let dropNones
@@ -22,4 +24,9 @@ let dropNones
                   Prelude.Optional.toList (Map.Entry k a) (f x)
               )
 
-in  dropNones
+let stringsArray
+    : List Text → JSON.Type
+    = λ(xs : List Text) →
+        JSON.array (Prelude.List.map Text JSON.Type JSON.string xs)
+
+in  { dropNones, stringsArray }
