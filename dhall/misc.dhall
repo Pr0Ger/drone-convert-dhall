@@ -285,6 +285,12 @@ in  { Clone
     , Conditions/toJSON
     , Constraint
     , Constraint/toJSON
+    , ConstraintOrText
+    , ConstraintOrText/toJSON
+    , ConstraintOrEvent
+    , ConstraintOrEvent/toJSON
+    , ConstraintOrStatus
+    , ConstraintOrStatus/toJSON
     , Param
     , KVParams
     , KVParams/toJSON
